@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qst.goldenarches.dao.ProductMapper">
+    <resultMap id="baseProductMap" type="com.qst.goldenarches.pojo.Product">
+        <id property="id" column="product_id"/>
+        <result property="name" column="product_name"/>
+        <result property="price" column="product_price"/>
+        <result property="inventory" column="product_inventory"/>
+        <result property="status" column="product_status"/>
+        <result property="cid" column="category_id"/>
+        <result property="pic" column="product_pic"/>
+    </resultMap>
+    <resultMap id="productMapWithType" type="com.qst.goldenarches.pojo.Product" >
+        <id property="id" column="product_id"/>
+        <result property="name" column="product_name"/>
+        <result property="price" column="product_price"/>
+        <result property="inventory" column="product_inventory"/>
+        <result property="status" column="product_status"/>
+        <result property="cid" column="category_id"/>
+        <result property="pic" column="product_pic"/>
+        <association property="category" javaType="com.qst.goldenarches.pojo.Category">
+            <id property="id" column="category_id"/>
+            <result property="name" column="category_name"/>
+        </association>
+    </resultMap>
+    <sql id="Base_Column_List">
+        product_id,product_name,product_price,product_inventory,product_status,product_pic,category_id
+    </sql>
+    <sql id="WithType_Column_List">
+        p.product_id,p.product_name,p.product_price,p.product_inventory,p.product_status,p.product_pic,ca.category_id,ca.category_name
+    </sql>
+    <insert id="insertProduct">
+        INSERT INTO product_info(product_name,product_price,product_inventory,product_status,product_pic,category_id)
+        VALUES(#{name},#{price},#{inventory},#{status},#{pic},#{cid})
+    </insert>
+    <update id="updateProductByProduct">
+        UPDATE product_info SET product_name=#{name},product_price=#{price},product_inventory=#{inventory},product_status=#{status},category_id=#{cid}
+        WHERE product_id=#{id}
+    </update>
+    <update id="updateProductPicByProduct">
+        UPDATE product_info SET product_pic=#{pic}
+        WHERE product_id=#{id}
+    </update>
+    <delete id="deleteProducts">
+        DELETE FROM product_info WHERE product_id IN
+        <foreach collection="productids" item="productid" open="(" close=")" separator=",">
+            #{productid}
+        </foreach>
+    </delete>
+    <select id="selectAll" resultMap="productMapWithType">
+        SELECT <include refid="WithType_Column_List"/>
+        FROM product_info p
+        LEFT JOIN  product_category ca
+        ON p.category_id=ca.category_id
+        <where>
+            <if test="text!=null">
+                p.product_name LIKE CONCAT('%',#{text},'%')
+                OR ca.category_name LIKE CONCAT('%',#{text},'%')
+            </if>
+        </where>
+        ORDER BY p.product_id DESC
+    </select>
+    <select id="selectProductById" resultMap="baseProductMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM product_info
+        WHERE product_id=#{0}
+    </select>
+    <select id="selByPage" resultMap="productMapWithType">
+        select <include refid="Base_Column_List"/>
+        from product_info
+        <where>
+            <if test="categoryId!=null">
+                category_id = #{categoryId}
+            </if>
+            and product_status=1
+        </where>
+    </select>
+    <select id="selCount" resultType="java.lang.Integer">
+        select count(*) from product_info
+        <where>
+            <if test="categoryId!=null">
+                category_id = #{categoryId}
+            </if>
+            and product_status=1
+        </where>
+    </select>
+</mapper>

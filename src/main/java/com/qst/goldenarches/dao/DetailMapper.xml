@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qst.goldenarches.dao.DetailMapper">
+    <resultMap id="baseDetail" type="com.qst.goldenarches.pojo.Detail">
+        <id property="id" column="detail_id"/>
+        <result property="oid" column="order_id"/>
+        <result property="pid" column="product_id"/>
+        <result property="pname" column="product_name"/>
+        <result property="price" column="product_price"/>
+        <result property="number" column="product_number"/>
+    </resultMap>
+    <select id="selectDetailsByOid" resultMap="baseDetail">
+        SELECT * FROM order_detail
+        WHERE order_id=#{Oid}
+    </select>
+    <select id="selectSaleNumByCid" resultType="java.lang.Integer">
+        SELECT SUM(product_number) FROM order_detail
+        WHERE product_id IN(
+	        SELECT product_id FROM product_info
+	        WHERE category_id =#{0}
+        )
+    </select>
+    <select id="selectCountOfProTypeSale" resultType="java.lang.Integer">
+        SELECT SUM(product_number) FROM order_detail
+        WHERE product_id IN(
+	      SELECT product_id FROM product_info
+	      WHERE category_id =#{cid})
+	    AND order_id IN(
+          SELECT order_id FROM order_master
+          WHERE create_time &gt;= #{fTime}
+          AND create_time &lt;= #{lTime})
+    </select>
+</mapper>

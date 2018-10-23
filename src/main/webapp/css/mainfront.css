@@ -1,0 +1,170 @@
+#header{
+    width: 1333px;
+    height: 100px;
+    background-color: gold;
+}
+#u41_div {
+    position:absolute;
+    width:182px;
+    height:37px;
+    background:inherit;
+    background-color:rgba(255, 255, 255, 0);
+    -moz-box-shadow:none;
+    -webkit-box-shadow:none;
+    box-shadow:none;
+    font-family:'Arial Negreta', 'Arial Normal', 'Arial';
+    font-weight:700;
+    font-style:normal;
+    color:#FFFFFF;
+}
+#u41 {
+    position:absolute;
+    left:350px;
+    top:36px;
+    width:182px;
+    height:37px;
+    font-family:'Arial Negreta', 'Arial Normal', 'Arial';
+    font-weight:700;
+    font-style:normal;
+    color:#FFFFFF;
+}
+#u41_text {
+    position:absolute;
+    left:0px;
+    top:-15px;
+    width:182px;
+    white-space:nowrap;
+    font-size: 25px;
+}
+#u40_img {
+    position:absolute;
+    left:0px;
+    top:0px;
+    width:116px;
+    height:72px;
+}
+#u40 {
+    position:absolute;
+    left:200px;
+    top:21px;
+    width:174px;
+    height:108px;
+    font-size:36px;
+}
+#u40_text {
+    position:absolute;
+    left:20px;
+    top:-25px;
+    width:100px;
+    word-wrap:break-word;
+}
+
+#index{
+    float: right;
+    margin-right: 30px;
+    margin-top: 70px;
+}
+button { /* 按钮美化 */
+    width: 100px; /* 宽度 */
+    height: 28px; /* 高度 */
+    border-width: 0px; /* 边框宽度 */
+    border-radius: 3px; /* 边框半径 */
+    background: #1E90FF; /* 背景颜色 */
+    cursor: pointer; /* 鼠标移入按钮范围时出现手势 */
+    outline: none; /* 不显示轮廓线 */
+    font-family: Microsoft YaHei; /* 设置字体 */
+    color: white; /* 字体颜色 */
+    font-size: 17px; /* 字体大小 */
+}
+button:hover { /* 鼠标移入按钮范围时改变颜色 */
+    background: orange;
+}
+
+#menu{
+    float: left;
+    background-color: gold;
+    width: 200px;
+    height: 600px;
+}
+#menu_0{
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 10px;
+    width: 180px;
+    height: 490px;
+    background-color: bisque;
+}
+.menu_1{
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 10px;
+    width: 160px;
+    height: 60px;
+    line-height: 60px;
+    background-color: #15d6ba;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 20px;
+}
+.menu_1:hover{
+    background-color: orange;
+}
+#content{
+    float: left;
+    background-color: gold;
+    margin-left: 33px;
+    width: 1100px;
+    height: 600px;
+}
+#content_0{
+    background-color: bisque;
+    margin-top: 10px;
+    /*margin-left: 100px;*/
+    /*margin-right: 100px;*/
+    width: 900px;
+    height: 480px;
+    word-wrap:break-word;
+    word-break:break-all;
+    overflow: hidden;
+}
+.content_1{
+    float: left;
+    background-color: powderblue;
+    margin: 5px;
+    width: 290px;
+    height: 230px;
+}
+.shop_img{
+    margin-top: 5px;
+    margin-left: 30px;
+    margin-right: 30px;
+    height: 150px;
+    width: 230px;
+}
+.price{
+    float: left;
+    color: #FF0000;
+}
+.number{
+    float: right;
+}
+#content_page{
+    margin-top: 10px;
+    margin-right: 200px;
+    float: right;
+}
+#total{
+    margin-top: 45px;
+    margin-right: -200px;
+    float: right;
+}
+#pay{
+    margin-top: 75px;
+    margin-right: -205px;
+    float: right;
+}
+#right{
+    float: right;
+    margin-right: 5px;
+    margin-top: -480px;
+}

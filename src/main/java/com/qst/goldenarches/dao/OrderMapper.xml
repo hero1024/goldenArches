@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qst.goldenarches.dao.OrderMapper">
+    <resultMap id="baseOrderMap" type="com.qst.goldenarches.pojo.Order">
+        <id property="id" column="order_id"/>
+        <result property="bid" column="buyer_id"/>
+        <result property="amount" column="total_amount"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+    <resultMap id="orderMapWithVIP" type="com.qst.goldenarches.pojo.Order" >
+        <id property="id" column="order_id"/>
+        <result property="bid" column="buyer_id"/>
+        <result property="amount" column="total_amount"/>
+        <result property="createTime" column="create_time"/>
+        <association property="vip" javaType="com.qst.goldenarches.pojo.VIP">
+            <id property="id" column="vip_id" />
+            <result property="name" column="vip_name"/>
+            <result property="phone" column="vip_phone"/>
+        </association>
+    </resultMap>
+    <sql id="baseOrderList">
+        order_id,buyer_id,total_amount,order_master.create_time
+    </sql>
+    <sql id="withVipOrderList">
+        order_id,buyer_id,total_amount,order_master.create_time,vip_id,vip_name,vip_phone
+    </sql>
+    <select id="selectAll" resultMap="orderMapWithVIP">
+        SELECT <include refid="withVipOrderList"/>
+        FROM order_master
+        LEFT JOIN vip_info
+        ON buyer_id=vip_id
+        <where>
+            <if test="queryText!=null">
+                vip_name LIKE CONCAT('%',#{queryText},'%')
+                OR vip_phone LIKE CONCAT('%',#{queryText},'%')
+            </if>
+        </where>
+        ORDER BY
+        <choose>
+            <when test="orderText!=null">
+                ${orderText}
+            </when>
+            <otherwise>
+                order_master.create_time DESC
+            </otherwise>
+        </choose>
+    </select>
+    <select id="selectAmountOfMonth" resultType="java.lang.Double">
+        SELECT IFNULL(SUM(total_amount),0)  FROM order_master
+        WHERE create_time &gt;= #{fTime}
+        AND create_time &lt;= #{lTime}
+    </select>
+</mapper>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qst.goldenarches.dao.CategoryMapper">
+   <sql id="baseCategoryList">
+       category_id id,category_name name
+   </sql>
+    <insert id="insertCategory">
+        INSERT INTO product_category(category_name) VALUES (#{name})
+    </insert>
+    <update id="updateCategory">
+        UPDATE product_category SET category_name=#{name}
+        WHERE category_id=#{id}
+    </update>
+    <delete id="deleteCategory">
+        DELETE FROM product_category
+        WHERE category_id=#{id}
+    </delete>
+    <delete id="deleteCategories">
+        DELETE FROM product_category WHERE category_id IN
+        <foreach collection="categoryids" item="categoryid" open="(" close=")" separator=",">
+            #{categoryid}
+        </foreach>
+    </delete>
+    <select id="selectAll" resultType="com.qst.goldenarches.pojo.Category">
+        SELECT <include refid="baseCategoryList"/>
+        FROM product_category
+        <where>
+            <if test="queryText!=null">
+                AND category_name LIKE CONCAT('%',#{queryText},'%')
+            </if>
+        </where>
+    </select>
+    <select id="selectHaveProductCategories" resultType="com.qst.goldenarches.pojo.Category">
+        SELECT <include refid="baseCategoryList"/>
+        FROM product_category
+        WHERE category_id IN (
+	          SELECT category_id FROM product_info
+	          WHERE category_id IN
+              <foreach collection="categoryids" item="categoryid" open="(" close=")" separator=",">
+                 #{categoryid}
+              </foreach>
+        )
+    </select>
+</mapper>

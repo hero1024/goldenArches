@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qst.goldenarches.dao.AdminMapper">
+    <insert id="insertAdminRoles">
+        INSERT INTO t_admin_role(admin_id,role_id) VALUES
+        <foreach collection="roleIds" item="roleId" separator=",">
+            (#{adminId},#{roleId})
+        </foreach>
+    </insert>
+    <delete id="deleteAdmins">
+        DELETE FROM t_admin WHERE id IN
+        <foreach collection="adminids" item="adminid" open="(" close=")" separator=",">
+            #{adminid}
+        </foreach>
+    </delete>
+    <delete id="deleteAdminRoles">
+        DELETE FROM t_admin_role WHERE
+        <if test="adminId!=null">
+            admin_id=#{adminId} AND
+        </if>
+        role_id IN
+        <foreach collection="roleIds" item="roleId" open="(" close=")" separator=",">
+            #{roleId}
+        </foreach>
+    </delete>
+    <select id="selectAllAdmin" resultType="admin">
+        SELECT * FROM t_admin
+        <where>
+            <if test="queryText!=null">
+                name LIKE CONCAT('%',#{queryText},'%')
+            </if>
+        </where>
+        ORDER BY create_time DESC
+    </select>
+</mapper>

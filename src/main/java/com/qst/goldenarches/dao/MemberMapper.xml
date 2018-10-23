@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qst.goldenarches.dao.MemberMapper">
+
+    <sql id="memberBaseList">
+        vip_id id,vip_name name,vip_phone phone,vip_balance balance,create_time createtime
+    </sql>
+    <select id="selectAll" resultType="com.qst.goldenarches.pojo.VIP">
+        SELECT <include refid="memberBaseList"/>
+        FROM vip_info ORDER BY
+        <choose>
+            <when test="orderText!=null">
+                ${orderText}
+            </when>
+            <otherwise>
+                vip_info.create_time DESC
+            </otherwise>
+        </choose>
+    </select>
+</mapper>
